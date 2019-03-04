@@ -1,0 +1,889 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+
+<!DOCTYPE rfc    SYSTEM "rfc2629.dtd" [
+]>
+
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+
+<?rfc strict="yes" ?>
+
+<?rfc toc="yes"?>
+
+<?rfc tocdepth="4"?>
+
+<?rfc symrefs="yes"?>
+
+<?rfc sortrefs="yes" ?>
+
+<?rfc compact="yes" ?>
+
+<?rfc subcompact="no" ?>
+
+<rfc category="std" docName="draft-ietf-detnet-flow-information-model-02" ipr="trust200902">
+
+<!-- ***** FRONT MATTER ***** -->
+
+<front>
+
+<title abbrev="DetNet Flow Information Model">DetNet Flow Information Model</title>
+
+<author fullname="J&aacute;nos Farkas" initials="J." surname="Farkas">
+   <organization>Ericsson</organization>
+   <address>
+      <postal>
+         <street>Magyar tudosok korutja 11</street>
+         <city>Budapest</city>
+         <country>Hungary</country>
+         <code>1117</code>
+      </postal>
+      <email>janos.farkas@ericsson.com</email>
+   </address>
+</author>
+
+<author fullname="Bal&aacute;zs Varga" initials="B." surname="Varga">
+   <organization>Ericsson</organization>
+   <address>
+      <postal>
+         <street>Magyar tudosok korutja 11</street>
+         <city>Budapest</city>
+         <country>Hungary</country>
+         <code>1117</code>
+      </postal>
+      <email>balazs.a.varga@ericsson.com</email>
+   </address>
+</author>
+
+<author fullname="Rodney Cummings" initials="R." surname="Cummings">
+   <organization>National Instruments</organization>
+   <address>
+      <postal>
+         <street>11500 N. Mopac Expwy</street>
+         <street>Bldg. C</street>
+    	 <city>Austin, TX</city>
+         <country>USA</country>
+         <code>78759-3504</code>
+      </postal>
+      <email>rodney.cummings@ni.com</email>
+   </address>
+</author> 
+	
+<author fullname="Yuanlong Jiang" initials="Y." surname="Jiang">
+   <organization>Huawei Technologies Co., Ltd.</organization>
+   <address>
+      <postal>
+         <street>Bantian, Longgang district</street>
+         <street> </street>
+    	 <city>Shenzhen</city>
+         <country>China</country>
+         <code>518129</code>
+      </postal>
+      <email>jiangyuanlong@huawei.com</email>
+   </address>
+</author> 
+
+<author fullname="Yiyong Zha" initials="Y." surname="Zha">
+   <organization>Huawei Technologies Co., Ltd.</organization>
+   <address>
+      <postal>
+         <street> </street>
+         <street> </street>
+    	 <city> </city>
+         <country>China</country>
+         <code> </code>
+      </postal>
+	  <email>zhayiyong@huawei.com</email>
+   </address>
+</author> 
+
+<date month="October" day="22" year="2018" />
+
+<area>Routing</area>
+
+<workgroup>DetNet</workgroup>
+
+<keyword>DetNet, Flow Information Model</keyword>
+
+<abstract>
+    <t>This document describes flow and service information model for Deterministic Networking (DetNet). The DetNet service is provided either for a Layer 3 or a Layer 2 flow. This document provides DetNet flow and service information model both for Layer 3 and Layer 2 flows in an integrated fashion.</t>
+</abstract>
+</front>
+
+
+<!-- ***** MIDDLE MATTER ***** -->
+
+<middle>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++              INTRODUCTION               +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->    
+<section title="Introduction">
+	
+    <t>A Deterministic Networking (DetNet) service provides a capability to carry a unicast or a multicast data flow for an application with constrained requirements on network performance, e.g., low packet loss rate and/or latency. The DetNet service is provided either for a Layer 3 (L3) flow or a Layer 2 (L2) flow by an IP/MPLS network, see, e.g., <xref target="I-D.ietf-detnet-dp-sol-mpls"/>. Similarly, Time-Sensitive Networking (TSN) <xref target="IEEE8021TSN"/>) can be used for L2 flows in a bridged network. DetNet and TSN have common architecture as expressed in <xref target="IETFDetNet"/> and <xref target="I-D.ietf-detnet-architecture"/>. DetNet service can be leveraged both by L3 and L2 flows, i.e., by DetNet L3 flows and DetNet L2 flows. Therefore, the DetNet flow and service information model provided by this document covers both DetNet L3 flows and DetNet L2 flows in an integrated fashion. </t>
+
+    <t>In a given network scenario three information models can distinguished:
+	
+	   <list style="symbols">
+		<t>Flow models describe characteristics of data flows. These models describe in detail all relevant aspects of a flow that are needed to support the flow properly by the network between the source and the destination(s). </t>
+		<t> Service models describe characteristics of services being provided for data flows over a network. These models can be treated as a network operator independent information model. </t>
+		<t>Configuration models describe in detail the settings required on network nodes to serve a data flow properly. </t>
+	   </list>
+	</t>
+	
+	<t>Service and flow information models are used between the user and the network operator. Configuration information models are used between the management/control plane entity of the network and the network nodes. They are shown in <xref target="fig_infomodels"/>.
+	</t>
+
+	<figure title="Usage of Information models (flow, service and configuration)" anchor="fig_infomodels">
+<artwork><![CDATA[
+   User                  Network Operator
+           flow/service  
+    /\      info model    +---+ 
+   /  \ <---------------> | X |    management/control
+   ----                   +-+-+       plane entity
+                            ^   
+                            |   configuration
+                            |     info model
+                     +------------+
+                     v      |     |
+                    +-+     |     v  Network
+                    +-+     v    +-+  nodes
+                           +-+   +-+
+                           +-+
+]]></artwork>
+</figure>
+	
+	<t>DetNet flow and service information model is based on <xref target="I-D.ietf-detnet-architecture"/> and on the data model specified by <xref target="IEEE8021Qcc"/>. Furthermore, the DetNet flow information model relies on the flow identification possibilities described in <xref target="IEEE8021CB"/>, which is used by <xref target="IEEE8021Qcc"/> as well. In addition to TSN data model, <xref target="IEEE8021Qcc"/> also specifies configuration of TSN features (e.g., traffic scheduling specified by <xref target="IEEE8021Qbv"/>). Due to the common architecture and flow model, configuration features can be leveraged in certain deployment scenarios, e.g., when the network that provides the DetNet service includes both L3 and L2 network segments.</t> 
+	
+	<t>Based on the DetNet architecture <xref target="I-D.ietf-detnet-architecture"/> (see Section 4), this document (this revision) only considers the Centralized Network / Distributed User Model out of the models specified by <xref target="IEEE8021Qcc"/>. That is, there is a User-Network Interface (UNI) between an end system and a network. Furthermore, there is a central entity for the control of the network. For instance, the central entity implements a Path Computation Element (PCE) for the calculation and establishment of paths needed for packet replication and elimination, if any.</t>
+	
+	<section title="Goals">
+	   <t>As it is expressed in the Charter <xref target="IETFDetNet"/>, the DetNet WG collaborates with IEEE 802.1 TSN in order to define a common architecture for both Layer 2 and Layer 3, which is beneficial for various reasons, e.g., in order to simplify implementations. The flow and service information models should be also common along those lines. As the TSN flow information/data model specified by <xref target="IEEE8021Qcc"/> is mature, the DetNet flow and service information models described in this document are based on <xref target="IEEE8021Qcc"/>, which is an amendment to <xref target="IEEE8021Q"/>.</t>
+	   
+<!--	   <t>The Centralized Network / Distributed User Model of <xref target="IEEE8021Qcc"/> is used in this revision as a start of the work. Further models can be also useful for DetNet, e.g., the Fully Centralized Model for the Industrial M2M use case <xref target="I-D.ietf-detnet-use-cases"/>.</t>
+-->
+	  
+	   <t>This document intends to specify flow and service information models only.</t>
+	</section>
+
+	<section title="Non Goals">
+	   <t>This document (this revision) does not intend to specify either flow data model or DetNet configuration. From these aspects, the goals of this document differ from the goals of <xref target="IEEE8021Qcc"/>, which also specifies data model and configuration of certain TSN features.</t>
+	</section>
+	  	  	  
+</section>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++       CONFORMANCE CONVENTIONS           +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section title="Conventions Used in This Document">
+
+   <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <xref target="RFC2119"/>.</t>
+
+   <t>The lowercase forms with an initial capital "Must", "Must Not", "Shall", "Shall Not", "Should", "Should Not", "May", and "Optional" in this document are to be interpreted in the sense defined in <xref target="RFC2119"/>, but are used where the normative behavior is defined in documents published by SDOs other than the IETF.</t>
+
+</section>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++              TERMINOLOGY                +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->	
+<section title="Terminology and Definitions">
+
+    <t>This document uses the terminology established in Section 2 of the DetNet architecture document <xref target="I-D.ietf-detnet-architecture"/>. The DetNet &lt;=&gt; TSN dictionary of <xref target="I-D.ietf-detnet-architecture"/> is used to perform translation from <xref target="IEEE8021Qcc"/> to this document. Additional terms used in this document:</t>
+	
+	    <t><list style="hanging">
+		
+		<t hangText="DetNet L3 Flow:">Layer 3 (L3) flow leveraging DetNet service.</t>		
+
+		<t hangText="DetNet L2 Flow:">Layer 2 (L2) flow leveraging DetNet service.</t>
+
+		<t hangText="DetNetwork Flow:">DetNet data plane specific encapsulated format of a DetNet L2 or L3 flow leveraging DetNet service.</t>
+		
+		</list></t>
+
+</section>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++            NAMING CONVENTIONS           +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section title="Naming Conventions">
+
+    <t>The following naming conventions were used for naming information model components in this document. It is recommended that extensions of the model use the same conventions.
+	
+	   <list style="symbols">
+	      <t>Names SHOULD be descriptive.</t>
+	      <t>Names MUST start with uppercase letters.</t>
+	      <t>Composed names MUST use capital letters for the first letter of each component. All other letters are lowercase, even for acronyms. Exceptions are made for acronyms containing a mixture of lowercase and capital letters, such as IPv6. Examples are SourceMacAddress and DestinationIPv6Address.</t>
+	   </list>
+	</t>
+	
+</section>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++             SERVICE MODEL               +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section anchor="sec_smodel" title="Service model">
+
+<section anchor="sec_soverview" title="Service overview">
+	
+	<t> The DetNet service can be defined as a service that provides a capability to carry a unicast or a multicast data flow for an application with constrained requirements on network performance, e.g., low packet loss rate and/or latency. 
+	</t>
+	
+	<t> The simplest DetNet service is to provide bridging over the DN domain (i.e., tunneling for L2), where the connected hosts are in the same broadcast (BC) domain. Forwarding over the DetNet domain is based on L2 (MAC) addresses (i.e. dst-MAC). Somewhat more sophisticated is DetNet Routing service that provides routing, so available only for L3 hosts that are in different BC domains. Forwarding over the DetNet domain is based on L3 (IP) addresses (i.e. dst-IP).
+    </t>
+	
+	<t> Figure 5. and Figure 8. in <xref target="I-D.ietf-detnet-architecture"/> show the DetNet service related reference points and main components. 
+	</t>
+	
+</section>
+
+<section anchor="sec_sparameters" title="Service parameters">
+	
+	<t>A DetNet network receives DetNet flows via a UNI as shown in Figure 5 in <xref target="I-D.ietf-detnet-architecture"/>. The DetNet network connects the UNIs via tunnels in order to provide DetNet service as shown in Figure 8 in <xref target="I-D.ietf-detnet-architecture"/>.</t>  
+	
+
+	<t>The DetNet service attributes are the following:
+	     <list style="symbols">
+			<t>Bandwidth<vspace blankLines="0"/>
+			It is the bandwidth guaranteed for the DetNet service.</t>
+			<t>Delay parameters<vspace blankLines="0"/>
+			The are two delay parameters for a DetNet service:
+			<list style="symbols">
+			<t>Maximum latency, which is the maximum end-to-end one-way latency for the DetNet service.</t>
+			<t>Packet Delay Variation (PDV), which is the difference between the minimum and the maximum end-to-end one-way latency. The PDV parameter describes the maximum packet delay variation for the DetNet service. (Note that PDV is sometimes referred to as jitter.)</t>
+			</list>
+			</t>
+			<t>Loss parameters<vspace blankLines="0"/>
+			<list style="symbols">
+			<t>The maximum Packet Loss Ratio (PLR) parameter describes the maximum packet loss ratio for the DetNet service between the edges of the DetNet network.</t>
+			<t>Some applications have special loss requirement. The maximum consecutive loss tolerance parameter describes the maximum number of consecutive packets whose loss can be tolerated. The maximum consecutive loss tolerance can be measured based on sequence number.</t>
+			</list>
+			</t>		
+			<t>Maximum allowed misordering<vspace blankLines="0"/>
+			Maximum allowed misordering describes the tolerable maximum number of packets that can be received out of order. The maximum allowed misordering can be measured based on sequence number. The value zero for the maximum allowed misordering indicates that in order delivery is required, misordering cannot be tolerated.</t>
+			<t>Connectivity type<vspace blankLines="0"/>
+			Two connectivity types are distinguished: point-to-point (p2p) and point-to-multipoint (p2mp). Connectivity type p2mp is created by a transport layer function (e.g., p2mp LSP). (Note: mp2mp connectivity is a superposition of p2mp connections.)</t>
+			<t>Service rank<vspace blankLines="0"/>
+			Service rank provides the rank of a service instance relative to other services in the network. Rank is used by the network in case of network resource limitation scenarios.</t>
+		</list>
+	
+	</t>
+	
+</section>
+
+<section anchor="sec_srefpoints" title="Reference Points">
+	
+	<t> From service model design perspective a fundamental question is the location of the service endpoints, i.e., where the service starts and ends. </t>
+
+	<t> Note: Further discussion is needed based on data plane encapsulation results what reference points should be defined. Only some possible examples listed here: 
+	     <list style="symbols">
+			<t> App-flow endpoint: End system's internal reference point for the native data flow. </t>
+			<t> DetNet-UNI: UNI interface ("U") on a DetNet edge node. </t>
+			<t> DetNet-NNI: NNI interface ("N") between DetNet domains. </t>
+		</list>
+	[[NOTE: Contributions are welcome whether we should define or distinguish internal reference point(s) for DetNet-aware end-systems as well. ]]
+	</t>
+	
+	<t>DetNet-UNI and DetNet-NNI are assumed in this document to be packet-based reference points and provide connectivity over the packet network and between domains. A DetNet-UNI adds networking technology specific encapsulation to the data flow in order to transport it over the network. 
+	</t>
+	
+	<t> [[NOTE: Differences between the service over end-systems internal reference points and DetNet-UNI is for further discussions. 
+	For example, in-order delivery is expected in end system internal reference points, whereas it is considered optional over the DetNet-UNI. ]] </t>
+	
+</section>
+
+<section anchor="sec_sscene" title="Service scenarios">
+	
+	<t>	Using the above defined reference points, two major service scenarios can be identified:
+	     <list style="symbols">
+			<t>End-to-End-Service: the service reaches out to final source or destination nodes, so it is an e2e service between application hosting devices (end systems).</t>
+			<t>DetNet-Service: the service connects networking islands, so it is a service between the borders of network domain(s).</t>		
+		</list>
+	</t>
+    
+	<t> [[NOTE: we may consider to define further scenarios based on the result of reference point related discussions. ]]</t>
+	
+</section>
+	
+</section>
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++        END SYSTEM and DETNET            +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section anchor="sec_system" title="End System and DetNet domain">
+    
+	<t>Deterministic service is required by time/loss sensitive application(s) running on an end system during communication with its peer(s). Such a data exchange has various requirements on delay and/or loss parameters.</t>
+	
+	<t>The DetNet architecture <xref target="I-D.ietf-detnet-architecture"/> distinguishes two kinds of end systems: Source and Destination. The same distinction is applied for the DetNet flow information model. In addition to the end systems interested in a flow, the status information of the flow is also important. Therefore, the DetNet flow information model relies on three high level groups:
+	   <list style="symbols">
+	      <t>Source: an end system capable of sourcing a DetNet flow. The Source information group includes elements that specify the Source for a single flow. This information group is applied from the user to the network.</t>
+	      <t>Destination: an end system that is a destination of a DetNet flow. The Destination information group includes elements that specify the Destination for a single flow. This information group is applied from the user to the network.</t>
+	      <t>Flow-Status: the status of a DetNet flow. The status information group includes elements that specify the status of the flow in the network. This information group is applied from the network to the user. This information group informs the user whether or not the flow is ready for use.</t>
+	   </list>
+	</t>
+
+	<t>From service perspective two kinds of edge nodes can be distinguished: Ingress and Egress. In addition the technology of the DetNet domain and the status of the service are also important. Therefore, the DetNet service information model relies on four high level groups:
+	   <list style="symbols">
+	      <t>Ingress: an edge system receiving a DetNet flow from a Source. The Ingress information group includes elements that specify the entry point for a single flow. This information group is applied from the network to the user.</t>
+	      <t>Egress: an edge system sending traffic towards a Destination of a DetNet flow. The Egress information group includes elements that specify the egress point for a single flow. This information group is applied from the network to the user.</t>
+	      <t>DetNet Domain: an administrative domain providing the DetNet service. The DetNet domain information group includes elements that specify the forwarding capabilities and methods for a single flow. This information group is applied within the network.</t>
+	      <t>Service-Status: the status of a DetNet service. The status information group includes elements that specify the status of the service specific state of the network. This information group is applied from the network to the user. This information group informs the user whether or not the service is ready for use.</t>
+	   </list>
+	</t>
+	
+	<t>There are two operations for each flow with respect to a Source or a Destination (and an Ingress or an Egress):
+	   <list style="symbols">
+	      <t>Join: Source/Destination request to join the flow.</t>
+	      <t>Leave: Source/Destination request to leave the flow.</t>
+	      <t>Modify: Source/Destination request to change the flow.</t>
+	   </list>
+	</t>	
+
+	<t>Modify operation can be considered to address cases when a flow is slightly changed, e.g., only MaxPayloadSize (<xref target="sec_trafficspec"/>) has been changed. The advantage of having a Modify is that it allows to initiate a change of flow spec while leaving the current flow is operating until the change is accepted. If there is no linkage between the Join and the Leave, then in figuring out whether the new flow spec can be supported, the central entity has to assume that the resources committed to the current flow are in use. Via Modify the central entity knows that the resources supporting the current flow can be available for supporting the altered flow. Modify is considered to be an optional operation due to possible control-plane limitations. 
+	</t>
+	
+	<t>As the DetNet UNI can provide service for both L3 and L2 flows, end systems may not need to implement the L3 &lt;=&gt; L2 Transfer Function specified by <xref target="IEEE8021CB"/> (see, e.g., subclause 6.3; see also subclause 46.1 in <xref target="IEEE8021Qcc"/>). An edge node may implement a function similar to the Transfer Function, see, e.g., the Svc Proxy in Figure 3 in <xref target="I-D.ietf-detnet-architecture"/>.</t>
+	
+</section>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++                 FLOW                    +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section anchor="sec_flow" title="Flow">
+
+	<t>The flows leveraging DetNet service can be unicast or multicast data flows for an application with constrained requirements on network performance, e.g., low packet loss rate and/or latency. Therefore, they can require different connectivity types: point-to-point (p2p) or point-to-multipoint (p2mp). The p2mp connectivity is created by a transport layer function (e.g., p2mp LSP) <xref target="I-D.ietf-detnet-dp-sol-mpls"/>. (Note that mp2mp connectivity is a superposition of p2mp connections.)</t>
+	
+	<t>Many flows using DetNet service are periodic with fix packet size (i.e., Constant Bit Rate (CBR) flows), or periodic with variable packet size.</t>
+	
+	<t>Delay and loss parameters are correlated because the effect of late delivery can result data loss for an application. However, not all applications require hard limits on both parameters (delay and loss). For example, some real-time applications allow graceful degradation if loss happens (e.g., sample-based processing, media distribution). Some others may require high-bandwidth connections that make the usage of techniques like packet replication economically challenging or even impossible. Some applications may not tolerate loss, but are not delay sensitive (e.g., bufferless sensors). Time/loss sensitive applications may have somewhat special requirements especially for loss (e.g., no loss in two consecutive communication cycles; very low outage time, etc.).</t>
+
+	<t>Flows have the following attributes:
+	     <list style="letters">
+	        <t>DataFlowSpecification (<xref target="sec_flowspec"/>)</t>
+	        <t>TrafficSpecification (<xref target="sec_trafficspec"/>)</t>
+	        <t>FlowRank (<xref target="sec_rank"/>)</t>
+		</list>
+	</t>
+
+	<t>Flow attributes are described in the following sections.</t>
+	
+<!-- +++++++ FLOW ID & SPEC +++++++ -->
+   <section anchor="sec_flowspec" title="Identification and Specification of Flows">
+      <t>Identification options for DetNet flows at the UNI and within the DetNet domain are specified as follows; see <xref target="sec_flowspec3"/> for DetNet L3 flows (at UNI), <xref target="sec_flowspec2"/> for DetNet L2 flows (at UNI) and <xref target="sec_flowspecdetnet"/> for DetNetwork flows (within the network).</t>
+
+<!-- +++++++ L3 FLOW ID & SPEC +++++++ -->	  
+      <section anchor="sec_flowspec3" title="DetNet L3 Flow Identification and Specification at UNI">
+	     <t>DetNet L3 flows can be identified and specified by the following attributes:
+	        <list style="letters">
+	           <t>SourceIpAddress</t>
+	           <t>DestinationIpAddress</t>
+	           <t>IPv6FlowLabel</t>
+	           <t>Dscp</t>
+	           <t>Protocol</t>
+	           <t>SourcePort</t>
+	           <t>DestinationPort</t>
+		    </list>
+	     </t>
+      </section>	
+
+<!-- +++++++ L2 FLOW ID & SPEC +++++++ -->	  	  
+      <section anchor="sec_flowspec2" title="DetNet L2 Flow Identification and Specification at UNI">
+	     <t>DetNet L2 flows can be identified and specified by the following attributes:
+    	    <list style="letters">
+	           <t>DestinationMacAddress</t>
+	           <t>SourceMacAddress</t>
+	           <t>Pcp</t>
+	           <t>VlanId</t>
+	           <t>EtherType</t>
+		    </list>
+	     </t>
+		
+	     <t>Note: The Multiple Stream Registration Protocol (MSRP) <xref target="IEEE8021Q"/> uses StreamID to match Talker registrations with their corresponding Listener registrations, i.e., to identify Streams (L2 TSN flows). The StreamID includes the following subcomponents:
+    	   <list style="symbols">
+	          <t>A 48-bit MAC Address associated with the Talker sourcing the stream to the bridged network.</t>
+	          <t>A 16-bit unsigned integer value, Unique ID, used to distinguish among multiple streams sourced by the same Talker.</t>
+		   </list>
+	     </t>
+      </section>	
+
+<!-- +++++++ DETNETWORK FLOW ID & SPEC +++++++ -->	  
+      <section anchor="sec_flowspecdetnet" title="DetNetwork Flow Identification and Specification">
+      <t>Identification of DetNet flows within the DetNet domain are used in the service information model. The attributes are specific to the forwarding paradigm within the DetNet domain. DetNetwork flows can be identified and specified by the following attributes:
+	        <list style="letters">
+	           <t>SourceIpAddress</t>
+	           <t>DestinationIpAddress</t>
+	           <t>IPv6FlowLabel</t>
+			   <t>(Protocol)</t>
+	           <t>(SourcePort)</t>
+	           <t>(DestinationPort)</t>
+	           <t>MplsLabel</t>
+		    </list>
+	     </t>
+	     <t>[[Note: attributes in brackets are dependant on current dataplane discussions. ]]
+		 </t>
+	  </section>	
+   </section>
+   
+<!-- +++++++ TRAFFIC SPEC +++++++ -->
+   <section anchor="sec_trafficspec" title="Traffic Specification">
+      <t>TrafficSpecification specifies how the Source transmits packets for the flow. This is effectively the promise/request of the Source to the network. The network uses this traffic specification to allocate resources and adjust queue parameters in network nodes.</t>	
+
+	  <t>TrafficSpecification has the following attributes:
+    	<list style="letters">
+	        <t>Interval: the period of time in which the traffic specification cannot be exceeded.</t>
+	        <t>MaxPacketsPerInterval: the maximum number of packets that the Source will transmit in one Interval.</t>
+	        <t>MaxPayloadSize: the maximum payload size that the Source will transmit.</t>
+	     </list>
+	  </t>
+
+      <t>[[NOTE (to be removed from a future revision): These attributes can be used to describe any type of traffic (e.g., CBR, VBR, etc.) and can be used during resource allocation to represent worst case scenarios. Further optional attributes can be considered to achieve more efficient resource allocation. Such optional attributes might be worth for flows with soft requirements (i.e., the flow is only loss sensitive or only delay sensitive, but not both delay-and-loss sensitive). Possible options how to extend TrafficSpecification attributes is for further discussion. Identified options are described in the following notes.]]
+	  </t>
+	  
+	  <t>
+	  [[NOTE1: Based on the already defined attributes the most similar additional attributes for VBR type flows can be defined as follows:
+	   	<list style="symbols">
+	        <t>AveragePacketsPerInterval: the average number of packets that the Source will transmit in one Interval.</t>
+	        <t>AveragePayloadSize: the average payload size that the Source will transmit.</t>
+	    </list>]]
+	  </t>
+	  
+	  <t>[[NOTE2: another alternative to deal better with various traffic types can rely on 
+	  <xref target="RFC6003"/>, which describes the support of Metro Ethernet Forum (MEF) Ethernet traffic parameters for using for resource reservation purposes. Such a Bandwidth Profile can be also adapted to describe the set of traffic parameters for a  Detnet flow. Committed Rate indicates the rate at which traffic commits to be sent by the source (described in terms of the CIR (Committed Information Rate) and CBS (Committed Burst Size) attributes.) Excess Rate indicates the extent by which the traffic sent by the source exceeds the committed rate. The Excess Rate is described in terms of the EIR (Excess Information Rate) and EBS (Excess Burst Size) attributes. ]]
+	  </t>	
+
+	  <t>[[NOTE3: a third alternative is to define application based traffic models such as  <xref target="GPP22885"/> defines periodic and event-driven traffic model, and 5G PPP work defines traffic model for MTC (Machine Type Communication) use cases <xref target="I-D.ietf-detnet-use-cases"/>. Periodic traffic type is usually for status update between devices or devices transmit status report to a central unit in regular basis. TrafficPeriod, defines the period of the status update message. DataSize, defines the data size of the massage which is constant. 3GPP also defines approximately-periodic transmission with variations on period and uncertainty in the time arrival of the packets. Event-triggered traffic type corresponds traffic being triggered by an MTC device event. MinIntervalBetweenEvent, defines the minimum interval between two events. Event-triggered transmission will not happen all the time, whenever an alert is sent, it waits until the issue being solved to be able to send another alert. MaxPacketPerEvent, defines the max number of packets within one message. ]]
+	  </t>	
+
+  </section>
+
+<!-- +++++++ FLOW RANK +++++++ -->
+   <section anchor="sec_rank" title="Flow Rank">
+      <t>FlowRank provides the rank of this flow relative to other flows in the network. This rank is used to determine success/failure of flow establishment. Rank (boolean) is used by the network to decide which flows can and cannot exist when network resources reach their limit. Rank is used to help to determine which flows can be dropped (i.e., removed from node configuration) if a port of a node becomes oversubscribed (e.g., due to network reconfiguration). The true value is more important than the false value (i.e., flows with false are dropped first).</t>	
+	  
+   </section>
+
+<!-- +++++++ SERVICE RANK +++++++ -->
+   <section anchor="sec_servicerank" title="Service Rank">
+      <t>ServiceRank provides the rank of this service instance relative to other services in the network. This rank is used to determine success/failure of service instance establishment. Rank (boolean) is used by the network to decide which services can and cannot exist when network resources reach their limit. Rank is used to help to determine which services can be dropped (i.e., removed from node configuration) if a port of a node becomes oversubscribed (e.g., due to network reconfiguration). The true value is more important than the false value (i.e., services with false are dropped first).</t>	
+	  <t>[[NOTE: relationship between ServiceRank and FlowRank needs further discussions. A 1:N relationship is assumed (a service instance can serv multiple flows). This sub-section is considered to move to the service related sections. ]]</t>	  
+   </section>
+
+</section>
+
+	
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++                 SOURCE                  +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section anchor="sec_source" title="Source">
+	  <t>The Source object specifies:
+	     <list style="symbols">
+	        <t>The behavior of the Source for the flow (how/when the Source transmits).</t>
+	        <t>The requirements of the Source from the network.</t>
+	        <t>The capabilities of the interface(s) of the Source.</t>
+	     </list>
+	  </t>	
+
+	  <t>The Source object includes the following attributes:
+	     <list style="letters">
+	        <t>DataFlowSpecification (<xref target="sec_flowspec"/>)</t>
+	        <t>TrafficSpecification (<xref target="sec_trafficspec"/>)</t>
+	        <t>FlowRank (<xref target="sec_rank"/>)</t>
+	        <t>EndSystemInterfaces (<xref target="sec_sysif"/>)</t>
+	        <t>InterfaceCapabilities (<xref target="sec_ifcap"/>)</t>
+	        <t>UserToNetworkRequirements (<xref target="sec_req"/>)</t>
+	     </list>
+	  </t>	
+
+	  <t>For the join operation, the DataFlowSpecification, FlowRank, EndSystemInterfaces, and TrafficSpecification SHALL be included within the Source. For the join operation, the UserToNetworkRequirements and InterfaceCapabilities groups MAY be included within the Source.</t>	
+
+	  <t>For the leave operation, the DataFlowSpecification and EndSystemInterfaces SHALL be included within the Source.</t>		  
+
+	  <t>For the modify operation, the same object SHALL and MAY included as for the join operation.</t>		  
+
+</section>
+	
+	
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++              DESTINATION                +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section anchor="sec_destination" title="Destination">
+
+	  <t>The Destination object includes the following attributes:
+	     <list style="letters">
+	        <t>DataFlowSpecification (<xref target="sec_flowspec"/>)</t>
+	        <t>EndSystemInterfaces (<xref target="sec_sysif"/>)</t>
+	        <t>InterfaceCapabilities (<xref target="sec_ifcap"/>)</t>
+	        <t>UserToNetworkRequirements (<xref target="sec_req"/>)</t>
+	     </list>
+	  </t>	
+
+	  <t>For the join operation, the DataFlowSpecification and EndSystemInterfaces SHALL be included within the Destination. For the join operation, the UserToNetworkRequirements and InterfaceCapabilities groups MAY be included within the Destination.</t>	
+
+	  <t>For the leave operation, the DataFlowSpecification and EndSystemInterfaces SHALL be included within the Destination.</t>
+
+	  <t>For the modify operation, the same object SHALL and MAY included as for the join operation.</t>		  
+	  
+	  <t>[[NOTE (to be removed from a future revision): Should we add DestinationRank? It could distinguish the importance of Destinations if the flow cannot be provided for all Destinations.]]</t>	
+
+</section>	
+	
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++       SOURCE & DESTINATION              +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section anchor="sec_srcdest" title="Common Attributes of Source and Destination">
+   
+   <t>Source and Destination end systems have the following common attributes in addition to DataFlowSpecification (<xref target="sec_flowspec"/>).</t>	
+
+<!-- +++++++ EndSystemInterfaces +++++++ -->
+   <section anchor="sec_sysif" title="End System Interfaces">
+	  <t>EndSystemInterfaces is a list of identifiers, one for each physical interface (port) in the end system acting as a Source or Destination. An interface is identified by an IP or a MAC address.</t>	
+
+	  <t>EndSystemInterfaces can refer also to logical sub-Interfaces if supported by the end system, e.g., based on IfIndex parameter.</t>
+	  
+	  </section>	
+
+<!-- +++++++ InterfaceCapabilities +++++++ -->
+   <section anchor="sec_ifcap" title="Interface Capabilities">
+	  <t>InterfaceCapabilities specifies the network capabilities of all interfaces (ports) contained in the EndSystemInterfaces object (<xref target="sec_sysif"/>). These capabilities may be configured via the InterfaceConfiguration object (<xref target="sec_ifconfig"/>) of the Status object (<xref target="sec_status"/>).</t>	
+	  
+	  <t>Note that an end system may have multiple interfaces with different network capabilities. In this case, each interface should be specified in a distinct top-level Source or Destination object (i.e., one entry in EndSystemInterfaces (<xref target="sec_sysif"/>)). Use of multiple entries in EndSystemInterfaces is intended for network capabilities that span multiple interfaces (e.g., packet replication and elimination).";.</t>	
+
+      <t>InterfaceCapabilities attributes:
+	     <list style="letters">
+	        <t>SubInterfaceCapable (sub-interface capable)</t>
+	        <t>PREF-Capable (packet replication and elimination capable)</t>
+	     </list>
+      </t>
+
+      <t>[[NOTE (to be removed from a future revision): InterfaceCapabilities attributes are to be defined. For information, <xref target="IEEE8021Qcc"/> specifies the following attributes:
+	     <list style="symbols">
+	        <t>VlanTagCapable (Customer VLAN Tag capable)</t>
+	        <t>CB-Capable (frame replication and elimination capable)</t>
+	        <t>CB-StreamIdenTypeList (a list of the optional Stream Identification types supported by the interface as specified in <xref target="IEEE8021CB"/>.)</t>
+	        <t>CB-SequenceTypeList (a list of the optional Sequence Encode/Decode types supported by the interface as specified in <xref target="IEEE8021CB"/>.)</t>
+	     </list>
+      ]]</t>
+
+   </section>		
+
+<!-- +++++++ USER TO NETWORK REQUIREMENTS +++++++ -->   
+   <section anchor="sec_req" title="User to Network Requirements">
+
+	  <t>UserToNetworkRequirements specifies user requirements for the flow, such as latency and reliability.</t>	
+
+	  <t>The UserToNetworkRequirements object includes the following attributes:
+	     <list style="letters">
+	        <t>NumReplicationTrees</t>
+	        <t>MaxLatency</t>
+	     </list>
+      </t>
+	  
+      <t>NumReplicationTrees specifies the number of maximally disjoint trees that the network should configure to provide packet replication and elimination for the flow. NumReplicationTrees is provided by the Source only. Destinations SHALL set this element to one. Value zero and one indicate no packet replication and elimination for the flow. When NumReplicationTrees is greater than one, packet replication and elimination is to be used for the flow. If the Source sets this element to greater than one, and packet replication and elimination is not possible in the network (e.g., no disjoint paths, or the nodes do not support packet replication and elimination), then the FailureCode of the Status object is non-zero (<xref target="sec_statusinfo"/>).</t>	
+
+      <t>MaxLatency is the maximum latency from Source to Destination(s) for a single packet of the flow. MaxLatency is specified as an integer number of nanoseconds. When this requirement is specified by the Source, it must be satisfied for all Destinations. When this requirement is specified by a Destination, it must be satisfied for that particular Destination only. If the UserToNetworkRequirements group is not provided within the Source or Destination object, then value zero SHALL be used for this element. Value zero represents a special use for the maximum latency requirement. Value zero locks-down the initial latency that the network provides in the AccumulatedLatency parameter of the Status object (<xref target="sec_status"/>) after the successful configuration of the flow, such that any subsequent increase in the latency beyond that initial value causes the flow to fail.</t>	
+	  
+	  <t>[[NOTE-1 (to be removed from a future revision): Should we add a parameter to specify the maximum packet loss rate that can be tolerated for the flow?]]</t>
+
+	  <t>[[NOTE-2 (to be removed from a future revision): TrafficSpecification (<xref target="sec_trafficspec"/>) specifies the Peak Information Rate (PIR) of the flow, which is a kind of user requirement to the network. Should we add Committed Information Rate (CIR), i.e., the minimum rate the user requests to be guaranteed for the flow by the network?]]</t>
+	  
+  </section>	
+
+</section>	
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++                INGRESS                  +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section anchor="sec_ingress" title="Ingress">
+
+	  <t>Placeholder ...</t>	
+
+</section>	
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++                 EGRESS                  +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section anchor="sec_egress" title="Egress">
+
+	  <t>Placeholder ...</t>	
+
+</section>	
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++            DETNET DOMAIN                +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section anchor="sec_detnetdomain" title="DetNet Domain">
+
+	  <t>The DetNet Domain may change the encapsulation of a DetNet L2 or L3 flow at the UNI. That impacts not only how a flow can be recognised inside the DetNet domain but also the resource reservation calculations.
+	  </t>	
+
+	  <t>The DetNet Domain object specifies:
+	     <list style="symbols">
+	        <t>The behavior of the flow (how/when it is transmited).</t>
+	        <t>The requirements of the flow from the network.</t>
+	        <t>The capabilities of the DetNet domain.</t>
+	     </list>
+	  </t>	
+
+	  <t>The DetNet domain object includes the following attributes:
+	     <list style="letters">
+	        <t>DataFlowSpecification (<xref target="sec_flowspec"/>)</t>
+	        <t>TrafficSpecification (<xref target="sec_trafficspec"/>)</t>
+	        <t>ServiceRank (<xref target="sec_servicerank"/>)</t>
+	        <t>DetnetDomainCapabilities (<xref target="sec_detnetcap"/>)</t>
+	        <t>UserToNetworkRequirements (<xref target="sec_req"/>)</t>
+	     </list>
+	  </t>	
+
+<!-- +++++++ DetnetDomainCapabilities +++++++ -->
+   <section anchor="sec_detnetcap" title="DetNet Domain Capabilities">
+	  <t>DetnetDomainCapabilities specifies the network capabilities, which can be used to provide DetNet service. DetNet Edge nodes may change the encapsulation of a flow according to the data plane used inside the DetNet domain.</t>	
+
+      <t>DetnetDomainCapabilities object includes the following attributes:
+	     <list style="letters">
+	        <t>EncapsulationFormat (data plane specific encapsulation)</t>
+	        <t>PREF-Capable (packet replication and elimination capable)</t>
+	     </list>
+      </t>
+
+   </section>		
+
+</section>
+	
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++            FLOW-STATUS                  +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section anchor="sec_status" title="Flow-status">
+
+   <t>The FlowStatus object is provided by the network each Source and Destination of the flow. The Status object provides the status of the flow with respect to the establishment of the flow by the network. The Status object is delivered via the corresponding UNI to each Source and Destination end system of the flow. The Status is distinct for each Source or Destination because the AccumulatedLatency and InterfaceConfiguration objects are distinct, see below.</t>
+   
+ 	<t>The Status object SHALL include the attributes a), b), c); and MAY include attributes d), e): 
+	     <list style="letters">
+	        <t>DataFlowSpecification (<xref target="sec_flowspec"/>)</t>
+	        <t>StatusInfo (<xref target="sec_statusinfo"/>)</t>
+	        <t>AccumulatedLatency (this section below)</t>
+	        <t>InterfaceConfiguration (<xref target="sec_ifconfig"/>)</t>
+	        <t>FailedInterfaces (<xref target="sec_failedif"/>)</t>
+	     </list>
+	</t>  
+ 
+   <t>DataFlowSpecification identifies the flow for which status is provided. DataFlowSpecification is described in (<xref target="sec_flowspec"/>) If the Status object is provided without a Source or Destination object in a protocol message via a UNI, then the DataFlowSpecification object SHALL be included within the Status object for both join and leave operations. If the Status object immediately follows a Source or Destination object in the protocol message, then the DataFlowSpecification object is obtained from the Source/Destination object, and therefore DataFlowSpecification is not required within the Status object.</t>
+
+   <t>AccumulatedLatency provides the worst-case latency that a single packet of the flow can encounter along its current path(s) in the network. When provided to a Source, AccumulatedLatency is the worst-case latency for all Destinations (worst path). AccumulatedLatency is specified as an integer number of nanoseconds. Latency is measured using the time at which the data frame&acute;s message timestamp point passes the reference plane marking the boundary between the network media and PHY. The message timestamp point is specified by IEEE Std 802.1AS <xref target="IEEE8021AS"/> for various media. For a successful Status, the network returns a value less than or equal to the MaxLatency of the UserToNetworkRequirements (<xref target="sec_req"/>). If the NumReplicationTrees of the UserToNetworkRequirements (<xref target="sec_req"/>) is one, then the AccumlatedLatency SHALL provide the worst latency for the current path from the Source to each Destination. If the path is changed (e.g., due to rerouting), then the AccumulatedLatency changes accordingly. If the NumReplicationTrees of the UserToNetworkRequirements (<xref target="sec_req"/>) is greater than one, AccumlatedLatency SHALL provide the worst latency for all paths in use from the Source to each Destination.</t>
+
+<!-- +++++++ STATUS INFO +++++++ -->  
+   <section anchor="sec_statusinfo" title="Status Info">
+
+	  <t>StatusInfo provides information regarding the status of a flow&acute;s configuration in the network.</t>	
+
+	  <t>The StatusInfo object MAY include the following attributes:
+	     <list style="letters">
+	        <t>SourceStatus is an enumeration for the status of the flow&acute;s Source: 
+	           <list style="symbols">
+	              <t>None: no Source</t>
+	              <t>Ready: Source is ready</t>
+	              <t>Failed: Source failed</t>
+	           </list>			
+			</t>
+	        <t>DestinationStatus is an enumeration for the status of the flow&acute;s Destinations: 
+	           <list style="symbols">
+	              <t>None: no Destination</t>
+	              <t>Ready: all Destinations are ready</t>
+	              <t>PartialFailed: One or more Destinations ready, and one or more Listeners failed. The flow can be used if the Source is Ready.</t>
+	              <t>Failed: All Destinations failed.</t>
+	           </list>			
+			</t>
+	        <t>FailureCode: A non-zero code that specifies the problem if the flow encounters a failure (e.g., packet replication and elimination is requested but not possible, or SourceStatus is Failed, or DestinationStatus is Failed, or DestinationStatus is PartialFailed).</t>
+	     </list>
+	  </t>	
+
+	  <t>[[NOTE (to be removed from a future revision): FailureCodes to be defined for DetNet. Table 46-1 of <xref target="IEEE8021Qcc"/> describes TSN failure codes.]]</t>
+	  
+   </section>
+
+<!-- +++++++ INTERFACE CONFIGURATION +++++++ --> 
+   <section anchor="sec_ifconfig" title="Interface Configuration">
+
+	  <t>InterfaceConfiguration provides information about of interfaces in the Source/Destination. This configuration related information assists the network in meeting the requirements of the flow. The InterfaceConfiguration object is according to the capabilities of the interface. InterfaceConfiguration can be distinct for each Source or Destination of each flow. If the InterfaceConfiguration object is not provided within the Status object, then the network SHALL assume zero elements as the default (no interface configuration).</t>
+	  
+ 	<t>The InterfaceConfiguration object MAY include one or more the following attributes:
+	     <list style="letters">
+	        <t>MAC or IP Address to identify the interface</t>
+	        <t>DataFlowSpecification (<xref target="sec_flowspec"/>)</t>
+	     </list>
+	</t>
+
+   </section>
+
+<!-- +++++++ FAILED INTERFACES +++++++ --> 
+   <section anchor="sec_failedif" title="Failed Interfaces">
+
+	  <t>FailedInterfaces provides a list of one or more physical interfaces (ports) in the failed node when a failure occurs in the network.</t>	
+ 	  <t>The FailedInterface object includes the following attributes:
+	     <list style="letters">
+	        <t>MAC or IP Address to identify the interface</t>
+	        <t>InterfaceName</t>
+	     </list>
+	  </t>
+
+	  <t>InterfaceName is the name of the interface (port) within the node. This interface name SHALL be persistent, and unique within the node.</t>
+	  
+   </section>
+   
+</section>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++          SERVICE-STATUS                  +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section anchor="sec_servicestatus" title="Service-status">
+
+	  <t>Placeholder ...</t>
+
+</section>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++                 SUMMARY                 +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section anchor="sec_sum" title="Summary">
+
+	<t>This document describes DetNet flow information model both for DetNet L3 flows and DetNet L2 flows based on the TSN data model specified by <xref target="IEEE8021Qcc"/>. This revision is extended with DetNet specific flow information model elements. </t> 
+
+</section>
+
+	
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++                  IANA                   +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->	
+<section anchor="IANA" title="IANA Considerations">
+    <t>N/A.</t>
+</section>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++                SECURITY                 +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<section anchor="Security" title="Security Considerations">
+    <t>N/A.</t>
+</section>
+
+</middle>
+
+
+<!--  *****BACK MATTER ***** -->
+
+<back>
+
+<references title="Normative References">	
+	<!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+    <?rfc include='reference.RFC.2119'?>
+    <?rfc include='reference.RFC.6003'?>
+	<?rfc include='reference.I-D.ietf-detnet-architecture'?>
+	<?rfc include='reference.I-D.ietf-detnet-dp-sol-mpls'?>
+
+</references>
+	
+<references title="Informative References">
+
+	<?rfc include='reference.I-D.ietf-detnet-use-cases'?>
+
+	<reference anchor="IETFDetNet" target="https://datatracker.ietf.org/wg/detnet/charter/">
+        <front>
+          <title>IETF Deterministic Networking (DetNet) Working Group</title>
+          <author>
+            <organization>IETF</organization>
+          </author>
+          <date />
+        </front>
+	</reference>
+	
+	<reference anchor="IEEE8021AS" target="http://standards.ieee.org/getieee802/download/802.1AS-2011.pdf">
+        <front>
+          <title>IEEE 802.1AS-2011: IEEE Standard for Local and metropolitan area networks - Timing and Synchronization for Time-Sensitive Applications in Bridged Local Area Networks</title>
+          <author>
+            <organization>IEEE 802.1</organization>
+          </author>
+          <date year="2011" />
+        </front>
+	</reference>
+
+	<reference anchor="IEEE8021Q" target="http://standards.ieee.org/getieee802/download/802-1Q-2014.pdf">
+        <front>
+          <title>IEEE 802.1Q-2014: IEEE Standard for Local and metropolitan area networks - Bridges and Bridged Networks</title>
+          <author>
+            <organization>IEEE 802.1</organization>
+          </author>
+          <date year="2014" />
+        </front>
+	</reference>
+	
+	<reference anchor="IEEE8021Qbv" target="https://standards.ieee.org/findstds/standard/802.1Qbv-2015.html">
+        <front>
+          <title>IEEE 802.1Qbv-2015: IEEE Standard for Local and metropolitan area networks - Bridges and Bridged Networks -- Amendment 25: Enhancements for Scheduled Traffic</title>
+          <author>
+            <organization>IEEE 802.1</organization>
+          </author>
+          <date year="2015" />
+        </front>
+	</reference>
+	
+	<reference anchor="IEEE8021Qcc" target="http://www.ieee802.org/1/pages/802.1cc.html">
+        <front>
+          <title>IEEE P802.1Qcc-2015: IEEE Draft Standard for Local and metropolitan area networks - Bridges and Bridged Networks -- Amendment: Stream Reservation Protocol (SRP) Enhancements and Performance Improvements</title>
+          <author>
+            <organization>IEEE 802.1</organization>
+          </author>
+          <date year="2017" />
+        </front>
+	</reference>
+
+	<reference anchor="IEEE8021CB" target="http://www.ieee802.org/1/pages/802.1cb.html">
+        <front>
+          <title>IEEE P802.1CB: IEEE Draft Standard for Local and metropolitan area networks - Frame Replication and Elimination for Reliability</title>
+          <author>
+            <organization>IEEE 802.1</organization>
+          </author>
+          <date year="2017" />
+        </front>
+	</reference>
+	
+	<reference anchor="IEEE8021TSN" target="http://www.ieee802.org/1/pages/tsn.html">
+        <front>
+          <title>IEEE 802.1 Time-Sensitive Networking (TSN) Task Group</title>
+          <author>
+            <organization>IEEE 802.1</organization>
+          </author>
+          <date />
+        </front>
+	</reference>
+
+	<reference anchor="GPP22885" target="http://www.3gpp.org/DynaReport/22885.html">
+        <front>
+          <title>Study on LTE support for Vehicle-to-Everything (V2X) services</title>
+          <author>
+            <organization>3GPP</organization>
+          </author>
+          <date />
+        </front>
+	</reference>
+	
+
+	
+</references>
+
+<!-- Change Log
+
+draft-farkas-DetNet-flow-information-model-00 2017-03-12  Initial version
+draft-farkas-DetNet-flow-information-model-01 2017-06-25  Updated (DP solutions, DetNet domain internal flows, VBR flows)
+draft-farkas-DetNet-flow-information-model-02 2017-10-30  Updated (placeholders for service model)
+draft-ietf-detnet-flow-information-model-00   2018-01-08  WG adopted version
+draft-ietf-detnet-flow-information-model-01   2018-03-02  Updated (service model)
+
+-->
+</back>
+</rfc>
