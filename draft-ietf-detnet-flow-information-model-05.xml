@@ -635,7 +635,7 @@
                    <t>SourceIpAddress</t>
                    <t>DestinationIpAddress</t>
                    <t>IPv6FlowLabel</t>
-                   <t>Dscp</t>
+                   <t>Dscp (attribute)</t>
                    <t>Protocol</t>
                    <t>SourcePort</t>
                    <t>DestinationPort</t>
