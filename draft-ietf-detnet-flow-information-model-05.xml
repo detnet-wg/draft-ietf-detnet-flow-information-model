@@ -71,12 +71,12 @@
       <email>jiangyuanlong@huawei.com</email>
    </address>
 </author> 
-    <author fullname="Don Fedyk" initials="D." surname="Fedyk">
-      <organization>LabN Consulting, L.L.C.</organization>
-      <address>
+<author fullname="Don Fedyk" initials="D." surname="Fedyk">
+   <organization>LabN Consulting, L.L.C.</organization>
+   <address>
         <email>dfedyk@labn.net</email>
-      </address>
-    </author>
+   </address>
+</author>
 
 <!-- <date month="July" day="08" year="2019" /> -->
 <date />
@@ -139,23 +139,23 @@
         as a guide to the functionality required by Detnet services.
     </t>
      <t>
-        The DetNet Architecture models the DetNet related data plane functions
+        The DetNet Architecture treats the DetNet related data plane functions
         decomposed into two sub-layers: a service sub-layer and a forwarding
         sub-layer.  The service sub-layer is used to provide DetNet service
-        protection and reordering. The forwarding sub-layer is used to provide
-        congestion protection (low loss, assured latency, and limited
+        protection and reordering. The forwarding sub-layer provides
+        resource allocation (to ensure low loss, assured latency, and limited
         out-of-order delivery) and leverages Traffic Engineering mechanisms.
       </t>
       <t> 
         In the IETF DetNet service utilizes IP or MPLS and DetNet is currently
         defined for IP and MPLS networks as shown in Figure 1 based on Figure 2
         and Figure 3 of <xref target="I-D.ietf-detnet-data-plane-framework"/>. 
-        In the IEEE 802.1 Time Sensitive Networking (TSN) utilizes Ethernet and
+        IEEE 802.1 Time Sensitive Networking (TSN) utilizes Ethernet and
         is defined over Ethernet networks.  A DetNet flow includes one or more
         App-flow(s) as payload. App-flows can be Ethernet, MPLS, or IP flows,
         which impacts which header fields are utilized to identify a flow.
         DetNet flows are identified by the DetNet encapsulation of App-flow(s) (e.g.,
-        with added MPLS labels, IP 6-tuple etc.). In some scenarios App-flow and DetNet
+        MPLS labels, IP 6-tuple etc.). In some scenarios App-flow and DetNet
         flow look similar on the wire (e.g., L3 App-flow over a DetNet IP
         network).  </t>        
     
@@ -275,7 +275,7 @@
 
         <section title="Non Goals">
            <t>
-           This document (this revision) does specify flow data models or
+           This document (this revision) does not specify flow data models or
            DetNet configuration. Therefore, the goals of this document
            differ from the goals of <xref target="IEEE8021Qcc"/>, which also
            specifies the TSN data model and configuration of certain TSN features.
@@ -455,7 +455,7 @@
         </t>
         
         <t> 
-          In the information model a DetNet flow contains one or more aggregated App-flows
+          In the information model a DetNet flow contains one or more (aggregated) App-flows
           (N:1 mapping). During DetNet aggregation the aggregated DetNet flows
           are treated simply as App-flows and the aggregate is the DetNet flow, which
           provides N:1 mapping. Similarly, there is an aggregated many to one relationship for 
@@ -496,10 +496,10 @@
                  points of the App-flow by pointing to the source
                  interface/node and destination interface(s)/node(s).</t>
               <t>FlowStatus: indicates the status of the App-flow with respect to
-                 the establishment of the flow by the DetNet network, e.g.,
+                 the establishment of the flow by the connected network, e.g.,
                  ready, failed, etc.</t> 
               <t>FlowRank: indicates the rank of this flow relative to other
-                 flows in the DetNet network.</t> 
+                 flows in the connected network.</t> 
             </list>
         </t>        
   </section>
@@ -537,7 +537,7 @@
         delivery can result data loss for an application. However, not all
         applications require hard limits on both latency and loss.
         For example, some real-time applications allow graceful degradation if
-        loss happens (e.g., sample-based data, media distribution). Some
+        loss happens (e.g., sample-based data processing, media distribution). Some
         other applications may require high-bandwidth connections that make use of
         packet replication techniques which are economically challenging or even
         impossible. Some applications may not tolerate loss, but are not
@@ -692,7 +692,7 @@
         interface/node and egress interface(s)/node(s). Depending on the
         network scenario it defines an interface or a node. Interface can be
         defined for example if the App-flow is a TSN Stream and it is received
-        over a well defined UNI interface. For example for App-flows with MPLS
+        over a well defined UNI interface. For example, for App-flows with MPLS
         encapsulation defining an ingress node is more common when per platform
         label space is used. 
         </t> 
