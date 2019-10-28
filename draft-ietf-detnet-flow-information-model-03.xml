@@ -81,21 +81,7 @@
    </address>
 </author> 
 
-<author fullname="Yiyong Zha" initials="Y." surname="Zha">
-   <organization>Huawei Technologies Co., Ltd.</organization>
-   <address>
-      <postal>
-         <street> </street>
-         <street> </street>
-    	 <city> </city>
-         <country>China</country>
-         <code> </code>
-      </postal>
-	  <email>zhayiyong@huawei.com</email>
-   </address>
-</author> 
-
-<date month="October" day="22" year="2018" />
+<date month="March" day="11" year="2019" />
 
 <area>Routing</area>
 
@@ -112,6 +98,27 @@
 <!-- ***** MIDDLE MATTER ***** -->
 
 <middle>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- +++++++           THINGS TO UPDATE              +++++++ -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->    
+<section title="ToDo list">
+	
+    <t>These further actions are due on the draft:
+	
+	   <list style="symbols">
+		<t> Align with updated architecture and data plane documents (partly done). </t>
+		<t> App-flow parameters will not be defined in detail (add references only, e.g., 802.1Qcc). We focus on DetNet flows. </t>
+		<t> Clarification on relationship between DetNet flow model and DetNet service model. </t>
+		<t> Parameter set needs finalization, some re-org of the set may be needed. </t>
+		<t> Sort out which parameter belongs to DetNet flow model and which to DetNet service model. </t>
+		<t> Clarify relationship between App-flow and DetNet flow (N:1 vs 1:1). </t>
+	   </list>
+	</t>
+</section>
+
+
 
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <!-- +++++++              INTRODUCTION               +++++++ -->
@@ -901,6 +908,8 @@ draft-farkas-DetNet-flow-information-model-01 2017-06-25  Updated (DP solutions,
 draft-farkas-DetNet-flow-information-model-02 2017-10-30  Updated (placeholders for service model)
 draft-ietf-detnet-flow-information-model-00   2018-01-08  WG adopted version
 draft-ietf-detnet-flow-information-model-01   2018-03-02  Updated (service model)
+...
+draft-ietf-detnet-flow-information-model-03   2019-03-08  Some editorial changes, further action list added
 
 -->
 </back>
