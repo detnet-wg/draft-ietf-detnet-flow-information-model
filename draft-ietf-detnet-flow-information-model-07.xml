@@ -10,7 +10,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="std" docName="draft-ietf-detnet-flow-information-model-07" ipr="trust200902">
+<rfc category="info" docName="draft-ietf-detnet-flow-information-model-07" ipr="trust200902">
 
 <!-- ***** FRONT MATTER ***** -->
 
@@ -376,15 +376,6 @@
         </t>
   </section>
 
- <section title="Requirements Language">
-  <t>
-    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-    "OPTIONAL" in this document are to be interpreted as described in
-    BCP 14 <xref target="RFC2119"/> <xref target="RFC8174"/> when, and
-    only when, they appear in all capitals, as shown here.
-  </t>
- </section>
  </section>  <!-- end of terminology -->
 
 
@@ -720,7 +711,7 @@
         establishment of the flow by the DetNet domain. </t>
         
 <?rfc subcompact="yes" ?>
-        <t>The DnFlowStatus SHALL include the following attributes:
+        <t>The DnFlowStatus includes the following attributes:
                 <list style="letters">
                   <t>
                   DnIngressStatus is an enumeration for the status of the
@@ -1023,7 +1014,7 @@
          for use.
          </t>
 
-        <t> The DnServiceStatus SHALL include the following attributes:
+        <t> The DnServiceStatus includes the following attributes:
 <?rfc subcompact="yes" ?>
              <list style="letters">
                 <t>DnServiceIngressStatus is an enumeration for the status of the service&acute;s Ingress: 
@@ -1113,22 +1104,22 @@
   <section anchor="sec_flowjoin" title="Join Operation">
           <t>
           For the join operation, the DnFlowSpecification, DnFlowRank,
-          DnFlowEndpoint, and DnTrafficSpecification SHALL be included within
+          DnFlowEndpoint, and DnTrafficSpecification are included within
           the DnIngress or DnEgress information group. For the join operation,
-          the DnServiceRequirements groups MAY be included.
+          the DnServiceRequirements groups can be included.
           </t>
   </section>
 
   <section anchor="sec_flowleave" title="Leave Operation">
-  <t>For the leave operation, the DnFlowSpecification and DnFlowEndpoint SHALL 
-  be included within the DnIngress or DnEgress information group.</t>
+  <t>For the leave operation, the DnFlowSpecification and DnFlowEndpoint are 
+  included within the DnIngress or DnEgress information group.</t>
   </section>
 
   <section anchor="sec_flowmodify" title="Modify Operation">
     <t>For the modify operation, the DnFlowSpecification, DnFlowRank, DnFlowEndpoint,
-        and DnTrafficSpecification SHALL be included within the DnIngress or DnEgress 
+        and DnTrafficSpecification are included within the DnIngress or DnEgress 
         information group. For the join operation, the DnServiceRequirements groups 
-        MAY be included.
+        can be included.
         </t>
         <t>
         The Modify operation can be considered to address cases when a flow is
