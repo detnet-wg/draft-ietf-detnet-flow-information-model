@@ -129,7 +129,7 @@
         specified unicast or multicast data flows for real-time applications
         with extremely low packet loss rates and assured maximum end-to-end
         delivery latency.  A description of the general background and concepts
-        of DetNet can be found in <xref target="I-D.ietf-detnet-architecture"/>.
+        of DetNet can be found in <xref target="RFC8655"/>.
      </t>
      <t>
         This document describes the Detnet Flow Service Information Model. 
@@ -237,7 +237,7 @@
         
       <t>
         DetNet flow and service information model is based on <xref
-                target="I-D.ietf-detnet-architecture"/> and on the concept of
+                target="RFC8655"/> and on the concept of
         data model specified by <xref target="IEEE8021Qcc"/>. Furthermore, the
         origination of the DetNet flow information model was the flow
         identification possibilities described in <xref target="IEEE8021CB"/>,
@@ -250,7 +250,7 @@
         includes both L3 and L2 network segments.  
       </t> 
         
-<!--        <t>Based on the DetNet architecture <xref target="I-D.ietf-detnet-architecture"/> (see Section 4), this document (this revision) only considers the Centralized Network / Distributed User Model out of the models specified by <xref target="IEEE8021Qcc"/>. That is, there is a User-Network Interface (UNI) between an end system and a network. Furthermore, there is a central entity for the control of the network. For instance, the central entity implements a Path Computation Element (PCE) for the calculation and establishment of paths needed for packet replication and elimination, if any.
+<!--        <t>Based on the DetNet architecture <xref target="RFC8655"/> (see Section 4), this document (this revision) only considers the Centralized Network / Distributed User Model out of the models specified by <xref target="IEEE8021Qcc"/>. That is, there is a User-Network Interface (UNI) between an end system and a network. Furthermore, there is a central entity for the control of the network. For instance, the central entity implements a Path Computation Element (PCE) for the calculation and establishment of paths needed for packet replication and elimination, if any.
 </t> -->
         
         <section title="Goals">
@@ -295,15 +295,15 @@
   <section title="Terms Used in This Document">
   <t>
    This document uses the terminology established in the DetNet architecture
-   <xref target="I-D.ietf-detnet-architecture"/> and the DetNet Data Plane
+   <xref target="RFC8655"/> and the DetNet Data Plane
    Framework <xref target="I-D.ietf-detnet-data-plane-framework"/>. The reader
    is assumed to be familiar with these documents and any terminology defined
    therein.  The DetNet &lt;=&gt; TSN dictionary of <xref
-           target="I-D.ietf-detnet-architecture"/> is used to perform
+           target="RFC8655"/> is used to perform
    translation from <xref target="IEEE8021Qcc"/> to this document.  
   </t>
   <t>
-   The following terminology is used in accordance with <xref target="I-D.ietf-detnet-architecture"/>:
+   The following terminology is used in accordance with <xref target="RFC8655"/>:
    <list style="hanging" hangIndent="14">
      <t hangText="App-flow">
        The payload (data) carried over a DetNet service.
@@ -356,6 +356,16 @@
    </list>
   </t>
   </section>
+   <section title="Requirements Language">
+      <t>
+        The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+        NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
+        "MAY", and "OPTIONAL" in this document are to be interpreted as
+        described in BCP 14 <xref target="RFC2119"/> <xref
+        target="RFC8174"/> when, and only when, they appear in all
+        capitals, as shown here.
+      </t>
+    </section>
 
   <section title="Naming Conventions">
           <t>
@@ -393,7 +403,7 @@
         </t>
         <t> 
           Figure 5 and Figure 8 in <xref
-                  target="I-D.ietf-detnet-architecture"/> show the DetNet
+                  target="RFC8655"/> show the DetNet
           service related reference points and main components.  
         </t>
  </section>
@@ -1169,7 +1179,7 @@
      <t>
     Security considerations for DetNet are described in detail in
     <xref target="I-D.ietf-detnet-security"/>. General security considerations
-    are described in <xref target="I-D.ietf-detnet-architecture"/>.   
+    are described in <xref target="RFC8655"/>.   
     This section covers security for the Flow Information Model and there are 
     no additional security considerations introduced by this document. 
     </t>
@@ -1183,10 +1193,10 @@
 <back>
 
 <references title="Normative References">        
-    <?rfc include='reference.RFC.2119'?>
     <!--    <?rfc include='reference.RFC.6003'?> -->
-    <?rfc include='reference.RFC.8174'?>
-        <?rfc include='reference.I-D.ietf-detnet-architecture'?>
+        <?rfc include='reference.RFC.8655'?>
+        <?rfc include='reference.RFC.8174'?>
+        <?rfc include='reference.RFC.2119'?>
         <?rfc include='reference.I-D.ietf-detnet-mpls'?>
         <?rfc include='reference.I-D.ietf-detnet-ip'?>
 
