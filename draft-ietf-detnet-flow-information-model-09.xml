@@ -240,7 +240,7 @@
                 target="RFC8655"/> and on the concept of
         data model specified by <xref target="IEEE8021Qcc"/>. Furthermore, the
         origination of the DetNet flow information model was the flow
-        identification possibilities described in <xref target="IEEE8021CB"/>,
+        identification possibilities described in Section 6. of <xref target="IEEE8021CB"/>,
         which is used by <xref target="IEEE8021Qcc"/> as well. In addition to
         the TSN data model, <xref target="IEEE8021Qcc"/> also specifies
         configuration of TSN features (e.g., traffic scheduling specified by
@@ -275,7 +275,7 @@
 
         <section title="Non Goals">
            <t>
-           This document (this revision) does not specify flow data models or
+           This document does not specify flow data models or
            DetNet configuration. Therefore, the goals of this document
            differ from the goals of <xref target="IEEE8021Qcc"/>, which also
            specifies the TSN data model and configuration of certain TSN features.
@@ -356,16 +356,6 @@
    </list>
   </t>
   </section>
-   <section title="Requirements Language">
-      <t>
-        The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
-        NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
-        "MAY", and "OPTIONAL" in this document are to be interpreted as
-        described in BCP 14 <xref target="RFC2119"/> <xref
-        target="RFC8174"/> when, and only when, they appear in all
-        capitals, as shown here.
-      </t>
-    </section>
 
   <section title="Naming Conventions">
           <t>
@@ -374,10 +364,10 @@
         model use the same conventions.
         
         <list style="symbols">
-        <t>Names SHOULD be descriptive.</t>
-        <t>Names MUST start with uppercase letters.</t>
+        <t>Names should be descriptive.</t>
+        <t>Names should start with uppercase letters.</t>
         <t>
-        Composed names MUST use capital letters for the first letter of each
+        Composed names should use capital letters for the first letter of each
         component. All other letters are lowercase, even for acronyms.
         Exceptions are made for acronyms containing a mixture of lowercase and
         capital letters, such as IPv6. Example composed names are SourceMacAddress and
@@ -682,12 +672,12 @@
           represent worst case scenarios.  
           </t>
 
-      <t>[[Editor's note (to be removed from a future revision): Further optional 
+      <t> Further optional 
           attributes can be considered to achieve more efficient resource allocation. 
           Such optional attributes might be worth for flows with soft requirements (i.e., 
           the flow is only loss sensitive or only delay sensitive, but not both
           delay-and-loss sensitive). Possible options how to extend
-          DnTrafficSpecification attributes is for further discussion. ]]
+          DnTrafficSpecification attributes is for further discussion.
           </t>
    </section> <!-- +++++++ TRAFFIC SPEC +++++++ -->
 
@@ -761,9 +751,8 @@
              </list>
           </t>        
           <t>
-          [[Editor's note (to be removed from a future revision): FailureCodes
-          to be defined for DetNet. Table 46-1 of <xref target="IEEE8021Qcc"/>
-          describes TSN failure codes.]] 
+          Defining FailureCodes for DetNet is out-of-scope in this document. 
+		  Table 46-1 of <xref target="IEEE8021Qcc"/> describes TSN failure codes. 
           </t>
           <!-- <t>The Status is distinct for each Ingress or Egress because for example the AccumulatedLatency 
           attributes may be distinct.</t> -->
@@ -1059,9 +1048,9 @@
              </list>
           </t>        
           <t>
-             [[Editor's note (to be removed from a future revision):
-             DnServiceFailureCodes to be defined for DetNet service. Table 46-1
-             of <xref target="IEEE8021Qcc"/> describes TSN failure codes.]]
+             Defining DnServiceFailureCodes for DetNet service is out-of-scope
+			 in this document. Table 46-1 of <xref target="IEEE8021Qcc"/> 
+			 describes TSN failure codes.
           </t>
           <!-- <t>The status is distinct for each Ingress or Egress because the AccumulatedLatency 
           objects are distinct.</t> -->
@@ -1159,7 +1148,10 @@
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <section anchor="sec_sum" title="Summary">
 
-        <t>This document describes DetNet flow information model and service information model for DetNet IP networks and DetNet MPLS networks. </t> 
+        <t>This document describes DetNet flow information model and service 
+		information model for DetNet IP networks and DetNet MPLS networks. 
+		These models are used as input for YANG modelling related work.
+		</t> 
 
 </section>
 
@@ -1177,11 +1169,15 @@
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <section anchor="Security" title="Security Considerations">
      <t>
+	The external interfaces of the DetNet domain needs to be subject to 
+	appropriate confidentiality. Additionally, knowledge of what flows/services 
+	are provided to a customer or delivered by a network operator may supply 
+	information that can be used in a variety of security attacks.
     Security considerations for DetNet are described in detail in
     <xref target="I-D.ietf-detnet-security"/>. General security considerations
     are described in <xref target="RFC8655"/>.   
-    This section covers security for the Flow Information Model and there are 
-    no additional security considerations introduced by this document. 
+	This document discusses modeling the information, not how it is
+    exchanged.
     </t>
      </section>
 
