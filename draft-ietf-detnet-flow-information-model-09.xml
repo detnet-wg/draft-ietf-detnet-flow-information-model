@@ -18,19 +18,6 @@
 
 <title abbrev="DetNet Flow Information Model">DetNet Flow Information Model</title>
 
-<author fullname="J&aacute;nos Farkas" initials="J." surname="Farkas">
-   <organization>Ericsson</organization>
-   <address>
-      <postal>
-         <street>Magyar tudosok korutja 11</street>
-         <city>Budapest</city>
-         <country>Hungary</country>
-         <code>1117</code>
-      </postal>
-      <email>janos.farkas@ericsson.com</email>
-   </address>
-</author>
-
 <author fullname="Bal&aacute;zs Varga" initials="B." surname="Varga">
    <organization>Ericsson</organization>
    <address>
@@ -41,6 +28,19 @@
          <code>1117</code>
       </postal>
       <email>balazs.a.varga@ericsson.com</email>
+   </address>
+</author>
+
+<author fullname="J&aacute;nos Farkas" initials="J." surname="Farkas">
+   <organization>Ericsson</organization>
+   <address>
+      <postal>
+         <street>Magyar tudosok korutja 11</street>
+         <city>Budapest</city>
+         <country>Hungary</country>
+         <code>1117</code>
+      </postal>
+      <email>janos.farkas@ericsson.com</email>
    </address>
 </author>
 
@@ -78,7 +78,6 @@
    </address>
 </author>
 
-<!-- <date month="July" day="08" year="2019" /> -->
 <date />
 
 <area>Routing</area>
@@ -98,26 +97,6 @@
 
 <middle>
 
-
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-<!-- +++++++           THINGS TO UPDATE              +++++++ -->
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->    
-
-<!-- <section title="ToDo List">
-        
-    <t>These further actions are due on the draft:
-        
-           <list style="symbols">
-                <t> Align with updated architecture and data plane documents (DONE). </t>
-                <t> App-flow parameters will not be defined in detail (add references only, e.g., 802.1Qcc). We focus on DetNet flows. (DONE) </t>
-                <t> Clarification on relationship between DetNet flow model and DetNet service model. (DONE) </t>
-                <t> Parameter set needs finalization, some re-org of the set may be needed. (DONE) </t>
-                <t> Sort out which parameter belongs to DetNet flow model and which to DetNet service model. (DONE) </t>
-                <t> Clarify relationship between App-flow and DetNet flow (N:1 vs 1:1). (DONE) </t>
-           </list>
-        </t>
-</section>
--->
 
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <!-- +++++++              INTRODUCTION               +++++++ -->
@@ -250,8 +229,6 @@
         includes both L3 and L2 network segments.  
       </t> 
         
-<!--        <t>Based on the DetNet architecture <xref target="RFC8655"/> (see Section 4), this document (this revision) only considers the Centralized Network / Distributed User Model out of the models specified by <xref target="IEEE8021Qcc"/>. That is, there is a User-Network Interface (UNI) between an end system and a network. Furthermore, there is a central entity for the control of the network. For instance, the central entity implements a Path Computation Element (PCE) for the calculation and establishment of paths needed for packet replication and elimination, if any.
-</t> -->
         
         <section title="Goals">
                 <t>
@@ -265,9 +242,6 @@
           are based on <xref target="IEEE8021Qcc"/>, which is an amendment to
           <xref target="IEEE8021Q"/>.</t>
            
-<!--           <t>The Centralized Network / Distributed User Model of <xref target="IEEE8021Qcc"/> is used in this revision as a start of the work. Further models can be also useful for DetNet, e.g., the Fully Centralized Model for the Industrial M2M use case <xref target="RFC8578"/>.</t>
--->
-          
            <t>
                This document specifies flow and service information models only.
            </t>
@@ -364,10 +338,10 @@
         model use the same conventions.
         
         <list style="symbols">
-        <t>Names should be descriptive.</t>
-        <t>Names should start with uppercase letters.</t>
+        <t>Desriptive names are used.</t>
+        <t>Names start with uppercase letters.</t>
         <t>
-        Composed names should use capital letters for the first letter of each
+        Composed names use capital letters for the first letter of each
         component. All other letters are lowercase, even for acronyms.
         Exceptions are made for acronyms containing a mixture of lowercase and
         capital letters, such as IPv6. Example composed names are SourceMacAddress and
@@ -537,31 +511,9 @@
         (e.g., no loss over two consecutive communication cycles; very low outage
         time, etc.).</t>
 
-<!--        <t>DetNet flow characteristics are described with the following parameters:
-           <list style="symbols">
-              <t>DnFlowID: it is a unique (management) identifier of the DetNet flow. 
-                  It can be used to define the 1:1 mapping of a DetNet flows to DetNet service.</t>
-              <t>DnPayloadType: it is set according to encapsulated App-flow format. 
-                  It can be Ethernet, MPLS, or IP.</t>
-              <t>DnFlowFormat: it is set according to encapsulation of the DetNet flow. 
-                  It can be MPLS or IP.</t>
-              <t>DnFlowSpecification: it is a DetNet flow descriptor, defining which packets 
-                  belongs to a flow using, e.g., packet header fields like label(-stack) or 6-tuple.</t>
-              <t>DnTrafficSpecification: it is a DetNet flow descriptor, defining traffic parameters 
-                  like packet size, interval, max. packet per interval, etc.</t>
-              <t>DnFlowEndpoints: it defines the starting and termination reference points
-                  of the DetNet flow by pointing to the ingress interface/node and egress 
-                  interface(s)/node(s).</t>
-              <t>DnFlowStatus: it provides the status of the DetNet flow with respect to 
-                  the establishment of the flow by the network, e.g., ready, failed, etc.</t>
-              <t>DnFlowRank: it provides the rank of this flow relative to other flows 
-                  in the DetNet domain.</t>
-           </list>
-        </t>        -->
 <?rfc subcompact="yes" ?>
 
         <t>DetNet flows have the following attributes:
-                <!-- <list style="letters"> -->
                 <list style="letters"> 
                 <t>DnFlowID (<xref target="sec_dnflowid"/>)</t>
                 <t>DnPayloadType (<xref target="sec_dnpayloadtype"/>)</t>
@@ -754,8 +706,6 @@
           Defining FailureCodes for DetNet is out-of-scope in this document. 
 		  Table 46-1 of <xref target="IEEE8021Qcc"/> describes TSN failure codes. 
           </t>
-          <!-- <t>The Status is distinct for each Ingress or Egress because for example the AccumulatedLatency 
-          attributes may be distinct.</t> -->
    </section>        
 
 <!-- +++++++ DETNET FLOW REQUIREMENTS +++++++ -->   
@@ -848,25 +798,6 @@
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <section anchor="sec_servicemodel" title="DetNet Service Related Parameters">
 
-<!--        <t>DetNet service characteristics are described with the following parameters:
-           <list style="symbols">
-              <t>DnServiceID: it is a unique (management) identifier of the DetNet service. 
-                  It can be used to define the 1:1 mapping of a DetNet flows to DetNet service.</t>
-              <t> DnServiceDeliveryType: it is set according to encapsulated App-flow format. 
-                  It can be Ethernet, MPLS, or IP.</t>
-              <t>DnServiceRequirements: it defines the requirements of the App-flow regarding 
-                  bandwidth, delay, delay variation, loss and misorder tolerance.</t>
-              <t>DNServiceConnectivity: it defines the connectovity provided by the 
-                  DetNet service. It can be p2p or p2mp.</t>
-              <t>DnServiceBiDir: it defines the requirements of the DetNet service whether it
-                  has to be routed together with other service instances through the network. </t>
-              <t>DnServiceRank: it provides the rank of the service instance relative 
-                  to other instances in the DetNet domain.</t>
-              <t>DnServiceStatus: it provides the status of the service instance with respect to 
-                  its establishment by the network, e.g., ready, failed, etc.</t>
-           </list>
-        </t>        -->
-
         <t>DetNet service have the following attributes:
              <list style="letters">
                 <t>DnServiceID (<xref target="sec_dnserviceid"/>)</t>
@@ -926,17 +857,6 @@
           MaxLatency is the maximum latency from Ingress to Egress(es) for a
           single packet of the DetNet flow. MaxLatency is specified as an
           integer number of nanoseconds. 
-          <!-- This is TSN (Qcc) specific mechanism:  When this requirement is specified by the Ingress, it has to be 
-          satisfied for all Egress. When this requirement is specified by an Egress, 
-          it has to be satisfied for that particular Egress only. 
-          If the DnServiceRequirements 
-          group is not provided within the Ingress or Egress object, then value zero 
-          SHALL be used for this element. Value zero represents a special use for the 
-          maximum latency requirement. Value zero locks-down the initial latency that 
-          the network provides in the AccumulatedLatency parameter of the Status object 
-          (<xref target="sec_dnservstat"/>) after the successful configuration of the flow, 
-          such that any subsequent increase in the latency beyond that initial value 
-          causes the flow to fail. -->
           </t>        
    </section>        
 
@@ -1052,8 +972,6 @@
 			 in this document. Table 46-1 of <xref target="IEEE8021Qcc"/> 
 			 describes TSN failure codes.
           </t>
-          <!-- <t>The status is distinct for each Ingress or Egress because the AccumulatedLatency 
-          objects are distinct.</t> -->
 
    </section>        
 
@@ -1150,7 +1068,7 @@
 
         <t>This document describes DetNet flow information model and service 
 		information model for DetNet IP networks and DetNet MPLS networks. 
-		These models are used as input for YANG modelling related work.
+		These models are used as input for the YANG model.
 		</t> 
 
 </section>
@@ -1254,29 +1172,7 @@
                 </front>
           </reference>
         
-          <!--       <reference anchor="IEEE8021TSN" target="http://www.ieee802.org/1/pages/tsn.html">
-        <front>
-          <title>IEEE 802.1 Time-Sensitive Networking (TSN) Task Group</title>
-          <author>
-            <organization>IEEE 802.1</organization>
-          </author>
-          <date />
-        </front>
-        </reference> -->
-        
 </references>
 
-<!-- Change Log
-
-draft-farkas-DetNet-flow-information-model-00 2017-03-12  Initial version
-draft-farkas-DetNet-flow-information-model-01 2017-06-25  Updated (DP solutions, DetNet domain internal flows, VBR flows)
-draft-farkas-DetNet-flow-information-model-02 2017-10-30  Updated (placeholders for service model)
-draft-ietf-detnet-flow-information-model-00   2018-01-08  WG adopted version
-draft-ietf-detnet-flow-information-model-01   2018-03-02  Updated (service model)
-...
-draft-ietf-detnet-flow-information-model-03   2019-03-08  Some editorial changes, further action list added
-draft-ietf-detnet-flow-information-model-04   2019-07-05  Major rewrite as per IETF104 discussions
-
--->
 </back>
 </rfc>
