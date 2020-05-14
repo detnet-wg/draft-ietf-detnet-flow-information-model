@@ -338,7 +338,7 @@
         model use the same conventions.
         
         <list style="symbols">
-        <t>Desriptive names are used.</t>
+        <t>Descriptive names are used.</t>
         <t>Names start with uppercase letters.</t>
         <t>
         Composed names use capital letters for the first letter of each
@@ -1066,7 +1066,7 @@
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <section anchor="sec_sum" title="Summary">
 
-        <t>This document describes DetNet flow information model and service 
+        <t>This document describes the DetNet flow information model and the service 
 		information model for DetNet IP networks and DetNet MPLS networks. 
 		These models are used as input for the YANG model.
 		</t> 
@@ -1087,8 +1087,8 @@
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <section anchor="Security" title="Security Considerations">
      <t>
-	The external interfaces of the DetNet domain needs to be subject to 
-	appropriate confidentiality. Additionally, knowledge of what flows/services 
+	The external interfaces of the DetNet domain need to be subject to 
+	appropriate confidentiality. Additionally, knowledge of which flows/services 
 	are provided to a customer or delivered by a network operator may supply 
 	information that can be used in a variety of security attacks.
     Security considerations for DetNet are described in detail in
