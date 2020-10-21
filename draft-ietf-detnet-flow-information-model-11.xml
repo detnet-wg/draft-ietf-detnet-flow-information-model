@@ -111,7 +111,7 @@
         of DetNet can be found in <xref target="RFC8655"/>.
      </t>
      <t>
-        This document describes the Detnet Flow Service Information Model. 
+        This document describes the Detnet Flow and Service Information Model. 
         For reference <xref target="RFC3444"/> describes the rational behind Information
 	Models in general. This document describes the Flow and Service information
 	models for operators and users to understand Detnet services, and for implementors
@@ -166,7 +166,7 @@
         contains both DetNet flow and App-flow specific information in an
         integrated fashion.  
     </t>
-    <t>In a given network scenario three information models can distinguished:
+    <t>In a given network scenario three information models can be distinguished:
         
     <list style="symbols">
 
@@ -218,9 +218,8 @@
         DetNet flow and service information model is based on <xref
                 target="RFC8655"/> and on the concept of
         data model specified by <xref target="IEEE8021Qcc"/>. Furthermore, the
-        origination of the DetNet flow information model was the flow
-        identification possibilities described in Section 6. of <xref target="IEEE8021CB"/>,
-        which is used by <xref target="IEEE8021Qcc"/> as well. In addition to
+		DetNet flow and service information models described in this document 
+		are based on <xref target="IEEE8021Qcc"/>. In addition to
         the TSN data model, <xref target="IEEE8021Qcc"/> also specifies
         configuration of TSN features (e.g., traffic scheduling specified by
         <xref target="IEEE8021Qbv"/>). The common architecture and flow
@@ -452,7 +451,7 @@
               <t>FlowType: set by the encapsulation format of the flow. 
                   It can be Ethernet (TSN), MPLS, or IP.</t>
               <t>DataFlowSpecification: a flow descriptor, defining which packets 
-                  belongs to a flow using, specific packet header fields such as 
+                  belongs to a flow, using specific packet header fields such as 
                   src-addr, dst-addr, label, VLAN-ID, etc.</t>
               <t>TrafficSpecification: a flow descriptor, defining traffic
                  parameters such as packet size, transmission time
@@ -466,6 +465,11 @@
               <t>FlowRank: indicates the rank of this flow relative to other
                  flows in the connected network.</t> 
             </list>
+        </t>        
+        <t>
+		  Note: When defining the N:1 mapping of App-flows to a DetNet flow,
+		  the App-flows must have the same FlowType and different 
+		  DataFlowSpecification parameters
         </t>        
   </section>
   
@@ -499,7 +503,7 @@
         
         <t>
         Latency and loss parameters are correlated because the effect of late
-        delivery can result data loss for an application. However, not all
+        delivery can result in data loss for an application. However, not all
         applications require hard limits on both latency and loss.
         For example, some real-time applications allow graceful degradation if
         loss happens (e.g., sample-based data processing, media distribution). Some
@@ -562,7 +566,7 @@
           The identification of DetNet MPLS flows within the DetNet domain is
           based on the MPLS context in the service information model. The
           attributes are specific to the MPLS forwarding paradigm within the
-          DetNet domain <xref target="I-D.ietf-detnet-mpls"/>.  DetNetwork MPLS
+          DetNet domain <xref target="I-D.ietf-detnet-mpls"/>.  DetNet MPLS
           flows can be identified and specified by the following attributes:
           <list style="letters">
                    <t>SLabel</t>
@@ -688,7 +692,7 @@
                          more Egress failed.  The DetNet flow can be used
                          if the Ingress is Ready.</t>
                       <t>Failed: All Egresses failed.</t>
-                      <t>OutOfService: Administratively blocked.</t>
+                      <t>OutOfService: All Egresses are administratively blocked.</t>
 <?rfc subcompact="no" ?>
                    </list>                        
                         </t>
@@ -1068,7 +1072,8 @@
 
         <t>This document describes the DetNet flow information model and the service 
 		information model for DetNet IP networks and DetNet MPLS networks. 
-		These models are used as input for the YANG model.
+		These models are used as input for creating the DetNet specific 
+		YANG model.
 		</t> 
 
 </section>
@@ -1160,16 +1165,6 @@
         </front>
         </reference>
 
-        <reference anchor="IEEE8021CB" target="https://ieeexplore.ieee.org/document/8091139/">
-                <front>
-                  <title>IEEE Std 802.1CB-2017 IEEE Standard for Local and metropolitan area networks - Frame Replication and Elimination for Reliability</title>
-                  <author>
-                        <organization>IEEE Standards Association</organization>
-                  </author>
-                  <date year="2017" />
-                </front>
-          </reference>
-        
 </references>
 
 </back>
