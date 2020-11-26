@@ -592,6 +592,8 @@
 			 <t>The IP 6-tuple that is used for DetNet IP flow identification consists 
 			 of items a, b, d, e, f, and g.  Items c and h are additional attributes 
 			 that can be used for DetNet flow identification in addition to the 6-tuple.
+			 Using wild cards for these attributes are specified in 
+			 <xref target="I-D.ietf-detnet-ip"/>.
 			 </t>
       </section>        
 
@@ -625,7 +627,9 @@
           <t> 
           These attributes can be used to describe any type of traffic (e.g.,
           CBR, VBR, etc.) and can be used during resource allocation to
-          represent worst case scenarios.  
+          represent worst case scenarios. Interval is specified as an integer 
+		  number of nanoseconds. MaxPayloadSize is specified in octets per 
+		  second. 
           </t>
 
       <t> Further optional 
@@ -758,7 +762,8 @@
    <section anchor="sec_flowmaxloss" title="Maximum Loss of the DetNet Flow">
        <t>
          MaxLoss defines the maximum Packet Loss Ratio (PLR) requirement for
-         the DetNet flow between the Ingress and Egress(es).  
+         the DetNet flow between the Ingress and Egress(es) and the loss 
+		 measurement interval.  
        </t>        
    </section>        
 
@@ -775,10 +780,15 @@
    <section anchor="sec_flowmaxmisorder" title="Maximum Misordering Tolerance of the DetNet Flow">
            <t>
            MaxMisordering describes the tolerable maximum number of packets
-           that can be received out of order. The maximum allowed misordering
-           can be measured for example based on sequence number. The value zero
-           for the maximum allowed misordering indicates that in order delivery
-           is required, misordering cannot be tolerated.
+           that can be received out of order. The value zero for the maximum 
+		   allowed misordering indicates that in order delivery is required, 
+		   misordering cannot be tolerated.
+           </t>        
+           <t>        		   
+		   The maximum allowed misordering can be measured for example based 
+		   on sequence number. The difference of sequence number values in 
+		   consecutive packets at the Egress cannot be bigger than 
+		   "MaxMisordering + 1".
            </t>        
   </section>        
           
@@ -852,7 +862,8 @@
    <section anchor="sec_minband" title="Minimum Bandwidth of the DetNet Service">
            <t>
            MinBandwidth is the minimum bandwidth that has to be guaranteed for
-           the DetNet service. MinBandwidth is specified in octets per second. 
+           the DetNet service. MinBandwidth is specified in octets per second
+		   and excludes additional DetNet header (if any). 
            </t>        
    </section>        
 
@@ -905,9 +916,11 @@
    <section anchor="sec_dnservcon" title="Connectivity Type of the DetNet Service">
          <t>
           Two connectivity types are distinguished: point-to-point (p2p) and
-          point-to-multipoint (p2mp). Connectivity type p2mp is created by a
-          transport layer function (e.g., p2mp LSP). (Note: mp2mp connectivity
-          is a superposition of p2mp connections.)</t>
+		  point-to-multipoint (p2mp).  Connectivity type p2mp may be created by
+		  a forwarding function (e.g., p2mp LSP).  (Note: from service 
+		  perspective mp2mp connectivity can be treated as a superposition of 
+		  p2mp connections.)
+		 </t>
    </section>        
 
    <section anchor="sec_dnservbidir" title="BiDir requirement of the DetNet Service">
@@ -925,7 +938,8 @@
           The DnServiceRank attribute provides the rank of a service instance
           relative to other services in the DetNet domain. DnServiceRank
           (range: 0-255) is used by the network in case of network resource
-          limitation scenarios.
+          limitation scenarios. High value rank gets preferred over a low value
+		  one.
           </t>
    </section>        
 
