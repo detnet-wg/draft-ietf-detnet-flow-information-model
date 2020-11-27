@@ -662,7 +662,7 @@
        their limit. Rank is used to help to determine which flows can be
        bumped (i.e., removed from node configuration thereby releasing its
        resources) if for example a port of a node becomes oversubscribed (e.g.,
-       due to network re-configuration).
+       due to network re-configuration). DnFlowRank value 0 is the highest priority.
        </t>        
        </section>
 
@@ -938,8 +938,7 @@
           The DnServiceRank attribute provides the rank of a service instance
           relative to other services in the DetNet domain. DnServiceRank
           (range: 0-255) is used by the network in case of network resource
-          limitation scenarios. High value rank gets preferred over a low value
-		  one.
+          limitation scenarios. DnServiceRank value 0 is the highest priority.
           </t>
    </section>        
 
