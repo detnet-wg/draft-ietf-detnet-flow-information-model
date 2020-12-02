@@ -621,15 +621,38 @@
                   MaxPayloadSize: the maximum payload size that the Ingress
                   will transmit.  
                 </t>
+                <t>
+                  MinPayloadSize: the minimum payload size that the Ingress 
+				  will transmit.
+                </t>
+                <t>
+                  MinPacketsPerInterval: the minimum number of packets that the
+				  Ingress will transmit in one Interval.
+                </t>
              </list>
           </t>
 
           <t> 
           These attributes can be used to describe any type of traffic (e.g.,
           CBR, VBR, etc.) and can be used during resource allocation to
-          represent worst case scenarios. Interval is specified as an integer 
-		  number of nanoseconds. MaxPayloadSize is specified in octets per 
+          represent worst case scenarios. Intervals are specified as an integer 
+		  number of nanoseconds. PayloadSizes are specified in octets per 
 		  second. 
+          </t>
+
+          <t> 
+          When MinPayloadSize and MinPacketsPerInterval parameters are used, 
+		  then all packets less than the MinPayloadSize will be counted as 
+		  being of the size MinPayloadSize during packet processing when 
+		  packet size matters, e.g., when policing; and all flows having less 
+		  than MinPacketsPerInterval will be counted as having 
+		  MinPacketsPerInterval when the number of packets per interval 
+		  matters, e.g., during resource reservation. However, flows having 
+		  less than MinPacketsPerInterval may result in a different network 
+		  behavior than the DetNet network has been engineered for. 
+		  MinPayloadSize and MinPacketsPerInterval parameters, for example, 
+		  may be used when engineering the latency bounds of a DetNet flow 
+		  when POF is applied to the given DetNet flow.
           </t>
 
       <t> Further optional 
