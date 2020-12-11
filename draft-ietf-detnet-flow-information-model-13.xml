@@ -112,7 +112,7 @@
      </t>
      <t>
         This document describes the Detnet Flow and Service Information Model. 
-        For reference <xref target="RFC3444"/> describes the rational behind Information
+        For reference <xref target="RFC3444"/> describes the rationale behind Information
 	Models in general. This document describes the Flow and Service information
 	models for operators and users to understand Detnet services, and for implementors
         as a guide to the functionality required by Detnet services.
@@ -636,10 +636,16 @@
           These attributes can be used to describe any type of traffic (e.g.,
           CBR, VBR, etc.) and can be used during resource allocation to
           represent worst case scenarios. Intervals are specified as an integer 
-		  number of nanoseconds. PayloadSizes are specified in octets per 
-		  second. 
+		  number of nanoseconds. PayloadSizes are specified in octets. 
           </t>
-
+          <t>
+		  Flows exceeding the traffic specification (i.e., having more traffic 
+		  than defined by the maximum attributes) may receive a different 
+		  network behavior than the DetNet network has been engineered for. 
+		  Excess traffic due to malicious or malfunctioning devices can be 
+		  prevented or mitigated (e.g., through the use of existing mechanisms 
+		  such as policing and shaping).
+          </t>
           <t> 
           When MinPayloadSize and MinPacketsPerInterval parameters are used, 
 		  then all packets less than the MinPayloadSize will be counted as 
@@ -809,8 +815,9 @@
            </t>        
            <t>        		   
 		   The maximum allowed misordering can be measured for example based 
-		   on sequence number. The difference of sequence number values in 
-		   consecutive packets at the Egress cannot be bigger than 
+		   on sequence numbers. When a packet arrives at the egress after a 
+		   packet with a higher sequence number, the difference between the 
+		   sequence number values cannot be bigger than
 		   "MaxMisordering + 1".
            </t>        
   </section>        
