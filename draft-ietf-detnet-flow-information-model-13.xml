@@ -128,7 +128,7 @@
       <t> 
         In the IETF DetNet service utilizes IP or MPLS and DetNet is currently
         defined for IP and MPLS networks as shown in Figure 1 based on Figure 2
-        and Figure 3 of <xref target="I-D.ietf-detnet-data-plane-framework"/>. 
+        and Figure 3 of <xref target="RFC8938"/>. 
         IEEE 802.1 Time Sensitive Networking (TSN) utilizes Ethernet and
         is defined over Ethernet networks.  A DetNet flow includes one or more
         App-flow(s) as payload. App-flows can be Ethernet, MPLS, or IP flows,
@@ -156,7 +156,7 @@
     <t> 
 
         As shown in <xref target="dn_svc_encaps"/> as per <xref
-                target="I-D.ietf-detnet-data-plane-framework"/> a DetNet flow
+                target="RFC8938"/> a DetNet flow
         can be treated as an application level flow (App-flow) e.g., at DetNet
         flow aggregation or in a sub-network that interconnects DetNet nodes.
     </t>        
@@ -252,7 +252,8 @@
            DetNet configuration. Therefore, the goals of this document
            differ from the goals of <xref target="IEEE8021Qcc"/>, which also
            specifies the TSN data model and configuration of certain TSN features.
-           
+           The DetNet specific YANG data model is described in
+		   <xref target="I-D.ietf-detnet-yang"/>.
          </t>
         </section>
                               
@@ -269,7 +270,7 @@
   <t>
    This document uses the terminology established in the DetNet architecture
    <xref target="RFC8655"/> and the DetNet Data Plane
-   Framework <xref target="I-D.ietf-detnet-data-plane-framework"/>. The reader
+   Framework <xref target="RFC8938"/>. The reader
    is assumed to be familiar with these documents and any terminology defined
    therein.  The DetNet &lt;=&gt; TSN dictionary of <xref
            target="RFC8655"/> is used to perform
@@ -577,7 +578,7 @@
 <!-- +++++++ DETNET IP FLOW ID & SPEC +++++++ -->          
       <section anchor="sec_flowspecip" title="DetNet IP Flow Identification and Specification">
              <t>DetNet IP flows can be identified and specified by the following attributes 
-                <xref target="I-D.ietf-detnet-ip"/>:
+                <xref target="RFC8939"/>:
                 <list style="letters">
                    <t>SourceIpAddress</t>
                    <t>DestinationIpAddress</t>
@@ -593,7 +594,7 @@
 			 of items a, b, d, e, f, and g.  Items c and h are additional attributes 
 			 that can be used for DetNet flow identification in addition to the 6-tuple.
 			 Using wild cards for these attributes are specified in 
-			 <xref target="I-D.ietf-detnet-ip"/>.
+			 <xref target="RFC8939"/>.
 			 </t>
       </section>        
 
@@ -1158,14 +1159,15 @@
     <!--    <?rfc include='reference.RFC.6003'?> -->
         <?rfc include='reference.RFC.8655'?>
         <?rfc include='reference.I-D.ietf-detnet-mpls'?>
-        <?rfc include='reference.I-D.ietf-detnet-ip'?>
+        <?rfc include='reference.RFC.8939'?>
 
 </references>
         
 <references title="Informative References">
 
-        <?rfc include='reference.I-D.ietf-detnet-data-plane-framework'?>
+        <?rfc include='reference.RFC.8938'?>
         <?rfc include="reference.I-D.ietf-detnet-security"?>
+        <?rfc include="reference.I-D.ietf-detnet-yang"?>
         <?rfc include='reference.RFC.3444'?>
 
         <reference anchor="IETFDetNet" target="https://datatracker.ietf.org/wg/detnet/charter/">
