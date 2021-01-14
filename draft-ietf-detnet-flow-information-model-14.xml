@@ -16,7 +16,7 @@
 
 <front>
 
-<title abbrev="DetNet Flow Information Model">DetNet Flow Information Model</title>
+<title abbrev="DetNet Flow Information Model">DetNet Flow and Service Information Model</title>
 
 <author fullname="Bal&aacute;zs Varga" initials="B." surname="Varga">
    <organization>Ericsson</organization>
@@ -84,7 +84,7 @@
 
 <workgroup>DetNet</workgroup>
 
-<keyword>DetNet, Flow Information Model</keyword>
+<keyword>DetNet, Flow and Service Information Model</keyword>
 
 <abstract>
     <t>This document describes flow and service information model for Deterministic Networking (DetNet). 
@@ -126,7 +126,7 @@
         out-of-order delivery) and leverages Traffic Engineering mechanisms.
       </t>
       <t> 
-        In the IETF DetNet service utilizes IP or MPLS and DetNet is currently
+        DetNet service utilizes IP or MPLS and DetNet is currently
         defined for IP and MPLS networks as shown in Figure 1 based on Figure 2
         and Figure 3 of <xref target="RFC8938"/>. 
         IEEE 802.1 Time Sensitive Networking (TSN) utilizes Ethernet and
@@ -217,9 +217,11 @@
       <t>
         DetNet flow and service information model is based on <xref
                 target="RFC8655"/> and on the concept of
-        data model specified by <xref target="IEEE8021Qcc"/>. Furthermore, the
+        data model specified by <xref target="IEEE8021Qcc"/>. 
+		<!-- Furthermore, the
 		DetNet flow and service information models described in this document 
-		are based on <xref target="IEEE8021Qcc"/>. In addition to
+		are based on <xref target="IEEE8021Qcc"/>. --> 
+		In addition to
         the TSN data model, <xref target="IEEE8021Qcc"/> also specifies
         configuration of TSN features (e.g., traffic scheduling specified by
         <xref target="IEEE8021Qbv"/>). The common architecture and flow
@@ -252,7 +254,9 @@
            DetNet configuration. Therefore, the goals of this document
            differ from the goals of <xref target="IEEE8021Qcc"/>, which also
            specifies the TSN data model and configuration of certain TSN features.
-           The DetNet specific YANG data model is described in
+           </t>
+           
+           <t>The DetNet specific YANG data model is described in
 		   <xref target="I-D.ietf-detnet-yang"/>.
          </t>
         </section>
@@ -497,7 +501,7 @@
 
         <t>
         The Data model specified by <xref target="IEEE8021Qcc"/> describes data
-        flows using TSN service as periodic flows with fix packet size (i.e.,
+        flows using TSN service as periodic flows with fixed packet size (i.e.,
         Constant Bit Rate (CBR) flows) or with variable packet size. The same
         concept is applied for flows using DetNet service.
         </t>
@@ -542,7 +546,7 @@
 
    <section anchor="sec_dnflowid" title="Management ID of the DetNet Flow">
         <t>A unique (management) identifier is needed for each DetNet flow within the 
-        DetNet domain. It is specified by DnFlowID. It can be used to define the many to one 
+        DetNet domain. It is specified by DnFlowID. It can be used to define the N:1 
         mapping of DetNet flows to a DetNet service.</t>
    </section>        
 
@@ -593,7 +597,7 @@
 			 <t>The IP 6-tuple that is used for DetNet IP flow identification consists 
 			 of items a, b, d, e, f, and g.  Items c and h are additional attributes 
 			 that can be used for DetNet flow identification in addition to the 6-tuple.
-			 Using wild cards for these attributes are specified in 
+			 6-tuple and use of wild cards for these attributes are specified in 
 			 <xref target="RFC8939"/>.
 			 </t>
       </section>        
@@ -678,7 +682,7 @@
         interface/node and egress interface(s)/node(s). Depending on the
         network scenario it defines an interface or a node. Interface can be
         defined for example if the App-flow is a TSN Stream and it is received
-        over a well defined UNI interface. For example, for App-flows with MPLS
+        over a well defined UNI (User-to-Network Interface). For example, for App-flows with MPLS
         encapsulation defining an ingress node is more common when per platform
         label space is used. 
         </t> 
@@ -1161,6 +1165,16 @@
         <?rfc include='reference.I-D.ietf-detnet-mpls'?>
         <?rfc include='reference.RFC.8939'?>
 
+        <reference anchor="IEEE8021Qcc" target="https://ieeexplore.ieee.org/document/8514112/">
+        <front>
+          <title>IEEE Std 802.1Qcc-2018: IEEE Standard for Local and metropolitan area networks - Bridges and Bridged Networks -- Amendment 31: Stream Reservation Protocol (SRP) Enhancements and Performance Improvements</title>
+          <author>
+            <organization>IEEE Standards Association</organization>
+          </author>
+          <date year="2018" />
+        </front>
+        </reference>
+
 </references>
         
 <references title="Informative References">
@@ -1200,16 +1214,6 @@
                   </front>
           </reference>
         
-        <reference anchor="IEEE8021Qcc" target="https://ieeexplore.ieee.org/document/8514112/">
-        <front>
-          <title>IEEE Std 802.1Qcc-2018: IEEE Standard for Local and metropolitan area networks - Bridges and Bridged Networks -- Amendment 31: Stream Reservation Protocol (SRP) Enhancements and Performance Improvements</title>
-          <author>
-            <organization>IEEE Standards Association</organization>
-          </author>
-          <date year="2018" />
-        </front>
-        </reference>
-
 </references>
 
 </back>
